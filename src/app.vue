@@ -23,8 +23,8 @@
                         <template slot="actions"
                                   slot-scope="{ parent }"
                         >
-                            <v-btn color="error lighten-1" flat @click.native="parent.clearHandler">Cancel</v-btn>
-                            <v-btn color="success darken-1" flat @click="parent.okHandler">Done</v-btn>
+                            <v-btn color="error lighten-1" text @click.native="parent.clearHandler">Cancel</v-btn>
+                            <v-btn color="success darken-1" text @click="parent.okHandler">Done</v-btn>
                         </template>
                     </v-datetime-picker>
                 </v-flex>

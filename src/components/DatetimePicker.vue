@@ -1,71 +1,68 @@
 <template>
-    <v-dialog
-            v-model="display"
-            lazy
-            full-width
-            :width="width"
-            :disabled="disabled">
-        <v-text-field
-                slot="activator"
-                :label="label"
-                :value="formattedDatetime"
-                :disabled="disabled"
-                :loading="loading"
-                :error-messages="errorMessages"
-                :error-count="errorCount"
-                :error="error"
-                :hide-details="hideDetails"
-                :append-icon="appendIcon"
-                :prepend-icon="prependIcon"
-                readonly>
-        </v-text-field>
-
-        <v-card>
-            <v-card-text style="padding: 0;">
-                <v-tabs fixed-tabs v-model="activeTab">
-                    <v-tab key="calendar">
-                        <slot name="dateIcon">
-                            <v-icon>event</v-icon>
-                        </slot>
-                    </v-tab>
-                    <v-tab key="timer" :disabled="!dateSelected">
-                        <slot name="timeIcon">
-                            <v-icon>access_time</v-icon>
-                        </slot>
-                    </v-tab>
-                    <v-tab-item key="calendar">
-                        <v-date-picker
-                                full-width
-                                v-model="datePart"
-                                scrollable
-                                :locale="locale"
-                                actions>
-                        </v-date-picker>
-                    </v-tab-item>
-                    <v-tab-item key="timer">
-                        <v-time-picker
-                                ref="timer"
-                                full-width
-                                class="v-time-picker-custom"
-                                v-model="timePart"
-                                scrollable
-                                :format="timePickerFormat"
-                                actions>
-                        </v-time-picker>
-                    </v-tab-item>
-                </v-tabs>
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <slot name="actions"
-                      :parent="this"
-                >
-                    <v-btn color="grey lighten-1" flat @click.native="clearHandler">{{clearText}}</v-btn>
-                    <v-btn color="green darken-1" flat @click="okHandler">{{okText}}</v-btn>
-                </slot>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
+  <v-menu
+    v-model="display"
+    :close-on-content-click="false"
+    transition="scale-transition"
+    offset-y
+    full-width
+    :width="width"
+    :disabled="disabled"
+    :max-width="290"
+  >
+    <template v-slot:activator="{ on }">
+      <v-text-field
+        slot="activator"
+        :value="formattedDatetime"
+        :disabled="disabled"
+        readonly
+        v-bind="$attrs"
+        v-on="on"
+      >
+      </v-text-field>
+    </template>
+    <v-card flat>
+      <v-card-text class="pa-0">
+        <v-tabs fixed-tabs v-model="activeTab" flat>
+          <v-tab key="calendar">
+            <slot name="dateIcon">
+              <v-icon>event</v-icon>
+            </slot>
+          </v-tab>
+          <v-tab key="timer" :disabled="!dateSelected">
+            <slot name="timeIcon">
+              <v-icon>access_time</v-icon>
+            </slot>
+          </v-tab>
+          <v-tab-item key="calendar">
+            <v-date-picker
+              v-model="datePart"
+              scrollable
+              :locale="locale">
+            </v-date-picker>
+          </v-tab-item>
+          <v-tab-item key="timer">
+            <v-time-picker
+              ref="timer"
+              class="v-time-picker-custom"
+              v-model="timePart"
+              scrollable
+              :format="timePickerFormat"
+            >
+            </v-time-picker>
+          </v-tab-item>
+        </v-tabs>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <slot name="actions"
+              :parent="this"
+        >
+          <v-btn color="grey lighten-1" text @click.native="clearHandler">{{clearText}}</v-btn>
+          <v-btn color="green darken-1" text @click="okHandler">{{okText}}</v-btn>
+          </slot>
+      </v-card-actions>
+    </v-card>
+  </v-menu>
 </template>
 
 <script>
@@ -86,10 +83,6 @@
         type: [Date, String],
         default: null
       },
-      label: {
-        type: String,
-        default: ''
-      },
       width: {
         type: Number,
         default: 320
@@ -103,8 +96,8 @@
         default: '24hr'
       },
       locale: {
-        type: String,
-        default: 'en-us'
+        type: String
+        // default: 'en-us'
       },
       clearText: {
         type: String,
@@ -117,32 +110,6 @@
       disabled: {
         type: Boolean,
         default: false
-      },
-      loading: {
-        type: Boolean,
-        default: false
-      },
-      errorMessages: {
-        type: [String, Array],
-        default: () => []
-      },
-      errorCount: {
-        type: [Number, String],
-        default: 1
-      },
-      error: {
-        type: Boolean,
-        default: false
-      },
-      hideDetails: {
-        type: Boolean,
-        default: false
-      },
-      appendIcon: {
-        type: String
-      },
-      prependIcon: {
-        type: String
       }
     },
     data () {
@@ -159,7 +126,7 @@
         this.selectedDatetime = this.datetime
       } else if (typeof this.datetime === 'string' || this.datetime instanceof String) {
         // see https://stackoverflow.com/a/9436948
-        this.selectedDatetime = moment(this.datetime, this.format)
+        this.selectedDatetime = moment(this.datetime, this.format).toDate()
       }
     },
     computed: {
@@ -200,14 +167,13 @@
       okHandler () {
         this.display = false
         this.activeTab = 0
-        this.$refs.timer.selectingHour = true
-
+        this.$refs.timer && (this.$refs.timer.selectingHour = true)
         this.$emit('input', this.selectedDatetime)
       },
       clearHandler () {
         this.display = false
         this.activeTab = 0
-        this.$refs.timer.selectingHour = true
+        this.$refs.timer && (this.$refs.timer.selectingHour = true)
 
         this.$emit('input', null)
       }
