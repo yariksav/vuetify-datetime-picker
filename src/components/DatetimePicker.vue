@@ -121,6 +121,13 @@
         selectedDatetime: null
       }
     },
+    watch: {
+      display (val) {
+        if (!val) {
+          this.okHandler()
+        }
+      }
+    },
     created () {
       if (this.datetime instanceof Date) {
         this.selectedDatetime = this.datetime
