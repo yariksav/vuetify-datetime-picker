@@ -1,6 +1,6 @@
 {
   "name": "vuetify2-datetime-picker",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "DatetimePicker component for Vuetify2.js.",
   "main": "dist/index.js",
   "scripts": {
@@ -44,12 +44,13 @@
     "vue-loader": "^12.0.2",
     "vue-style-loader": "^4.1.0",
     "vue-template-compiler": "^2.6.10",
+    "vuetify": "^2.0.7",
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.5",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
-    "moment": "^2.22.2",
-    "vuetify": "^2.0.4"
+    "moment": "^2.22.2"
   }
 }

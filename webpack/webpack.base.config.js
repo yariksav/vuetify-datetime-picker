@@ -1,13 +1,10 @@
 const {join} = require('path')
+const nodeExternals = require('webpack-node-externals');
 
 const resolve = dir => join(__dirname, '..', dir)
 
 module.exports = {
-  externals: {
-    moment: 'moment',
-    'vuetify/lib': 'vuetify/lib',
-    'vuetify': 'Vuetify'
-  },
+  externals: [nodeExternals()],
   output: {
     filename: 'bundle.js',
     path: resolve('dist'),
