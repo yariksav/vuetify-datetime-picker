@@ -4,7 +4,9 @@ const resolve = dir => join(__dirname, '..', dir)
 
 module.exports = {
   externals: {
-    moment: 'moment'
+    moment: 'moment',
+    'vuetify/lib': 'vuetify/lib',
+    'vuetify': 'Vuetify'
   },
   output: {
     filename: 'bundle.js',

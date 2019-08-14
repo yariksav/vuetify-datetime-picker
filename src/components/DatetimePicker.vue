@@ -67,6 +67,21 @@
 
 <script>
   import moment from 'moment'
+  import {
+    VMenu,
+    VTextField,
+    VCard,
+    VCardText,
+    VTabs,
+    VTab,
+    VTabItem,
+    VIcon,
+    VDatePicker,
+    VTimePicker,
+    VCardActions,
+    VSpacer,
+    VBtn
+  } from 'vuetify/lib'
 
   const DEFAULT_DATE_FORMAT = 'YYYY-MM-DD'
   const DEFAULT_TIME_FORMAT = 'HH:mm'
@@ -74,6 +89,21 @@
 
   export default {
     name: 'v-datetime-picker',
+    components: {
+      VMenu,
+      VTextField,
+      VCard,
+      VCardText,
+      VTabs,
+      VTab,
+      VTabItem,
+      VIcon,
+      VDatePicker,
+      VTimePicker,
+      VCardActions,
+      VSpacer,
+      VBtn
+    },
     model: {
       prop: 'datetime',
       event: 'input'
